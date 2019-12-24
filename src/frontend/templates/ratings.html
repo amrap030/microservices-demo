@@ -1,0 +1,10 @@
+<!-- Template for Stars in Home Page -->
+
+{{ define "ratings" }}       
+
+    <div class="stars-outer-home">
+        <!-- function call in CSS attribute -->
+        <div class="stars-inner-home" style="width: {{ renderRating .Rating }};"></div>
+    </div>
+
+{{ end }}

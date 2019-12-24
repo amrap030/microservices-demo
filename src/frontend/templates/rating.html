@@ -1,0 +1,11 @@
+<!-- Template for Stars and Values in Product Page -->
+
+{{ define "rating" }}       
+  
+    <div class="stars-outer">
+        <!-- function call in CSS attribute -->
+        <div class="stars-inner" style="width: {{ renderRating $.product.Rating}};"></div>
+    </div>
+    <span class="number-rating">{{ $.product.Rating.Value}} - {{ $.product.Rating.Ratings}} ratings</span>
+      
+{{ end }}
