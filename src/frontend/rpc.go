@@ -18,7 +18,7 @@ import (
 	"context"
 	"time"
 
-	pb "github.com/amrap030/microservices-demo/tree/master/src/frontend/genproto"
+	pb "github.com/amrap030/microservices-demo/tree/5sr-leave-a-rating-to-a-product/src/frontend/genproto"
 
 	"github.com/pkg/errors"
 )

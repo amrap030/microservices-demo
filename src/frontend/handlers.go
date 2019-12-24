@@ -29,8 +29,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 
-	pb "github.com/amrap030/microservices-demo/tree/master/src/frontend/genproto"
-	"github.com/amrap030/microservices-demo/tree/master/src/frontend/money"
+	pb "github.com/amrap030/microservices-demo/tree/5sr-leave-a-rating-to-a-product/src/frontend/genproto"
+	"github.com/amrap030/microservices-demo/tree/5sr-leave-a-rating-to-a-product/src/frontend/money"
 )
 
 var (

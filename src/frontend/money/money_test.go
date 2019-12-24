@@ -19,7 +19,7 @@ import (
 	"reflect"
 	"testing"
 
-	pb "github.com/amrap030/microservices-demo/tree/master/src/frontend/genproto"
+	pb "github.com/amrap030/microservices-demo/tree/5sr-leave-a-rating-to-a-product/src/frontend/genproto"
 )
 
 func mmc(u int64, n int32, c string) pb.Money { return pb.Money{Units: u, Nanos: n, CurrencyCode: c} }
