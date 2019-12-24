@@ -18,7 +18,7 @@ import (
 	"context"
 	"time"
 
-	pb "github.com/GoogleCloudPlatform/microservices-demo/src/frontend/genproto"
+	pb "github.com/amrap030/microservices-demo/tree/master/src/frontend/genproto"
 
 	"github.com/pkg/errors"
 )
@@ -51,6 +51,17 @@ func (fe *frontendServer) getProducts(ctx context.Context) ([]*pb.Product, error
 func (fe *frontendServer) getProduct(ctx context.Context, id string) (*pb.Product, error) {
 	resp, err := pb.NewProductCatalogServiceClient(fe.productCatalogSvcConn).
 		GetProduct(ctx, &pb.GetProductRequest{Id: id})
+	return resp, err
+}
+
+//getRating gRPC call
+//return value *pb.GetRatingRespons
+//NewFiveStarRatingServiceClient defined in demo.pb.go
+//ProductID defined in demo.pb.go
+//ratingSvcConn defined in main.go
+func (fe *frontendServer) getRating(ctx context.Context, id string) (*pb.GetRatingResponse, error) {
+	resp, err := pb.NewFiveStarRatingServiceClient(fe.ratingSvcConn).
+		GetRating(ctx, &pb.ProductID{ProductID: id})
 	return resp, err
 }
 

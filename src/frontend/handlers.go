@@ -23,19 +23,21 @@ import (
 	"os"
 	"strconv"
 	"time"
+	"math"
 
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 
-	pb "github.com/GoogleCloudPlatform/microservices-demo/src/frontend/genproto"
-	"github.com/GoogleCloudPlatform/microservices-demo/src/frontend/money"
+	pb "github.com/amrap030/microservices-demo/tree/master/src/frontend/genproto"
+	"github.com/amrap030/microservices-demo/tree/master/src/frontend/money"
 )
 
 var (
 	templates = template.Must(template.New("").
 		Funcs(template.FuncMap{
 			"renderMoney": renderMoney,
+			"renderRating": renderRating,
 		}).ParseGlob("templates/*.html"))
 )
 
@@ -52,6 +54,7 @@ func (fe *frontendServer) homeHandler(w http.ResponseWriter, r *http.Request) {
 		renderHTTPError(log, r, w, errors.Wrap(err, "could not retrieve products"), http.StatusInternalServerError)
 		return
 	}
+
 	cart, err := fe.getCart(r.Context(), sessionID(r))
 	if err != nil {
 		renderHTTPError(log, r, w, errors.Wrap(err, "could not retrieve cart"), http.StatusInternalServerError)
@@ -61,6 +64,7 @@ func (fe *frontendServer) homeHandler(w http.ResponseWriter, r *http.Request) {
 	type productView struct {
 		Item  *pb.Product
 		Price *pb.Money
+		Rating *pb.GetRatingResponse
 	}
 	ps := make([]productView, len(products))
 	for i, p := range products {
@@ -69,7 +73,17 @@ func (fe *frontendServer) homeHandler(w http.ResponseWriter, r *http.Request) {
 			renderHTTPError(log, r, w, errors.Wrapf(err, "failed to do currency conversion for product %s", p.GetId()), http.StatusInternalServerError)
 			return
 		}
-		ps[i] = productView{p, price}
+		//get Ratings for each product
+		rating, err := fe.getRating(r.Context(), p.Id)
+		if err != nil {
+			renderHTTPError(log, r, w, errors.Wrap(err, "could not retrieve rating"), http.StatusInternalServerError)
+			return
+		}
+		//set Rating to 0 if there is no rating to the product inside DB
+		if math.IsNaN(rating.GetValue()) {
+			rating.Value = 0
+		}
+		ps[i] = productView{p, price, rating} //added rating to product
 	}
 
 	if err := templates.ExecuteTemplate(w, "home", map[string]interface{}{
@@ -77,7 +91,7 @@ func (fe *frontendServer) homeHandler(w http.ResponseWriter, r *http.Request) {
 		"request_id":    r.Context().Value(ctxKeyRequestID{}),
 		"user_currency": currentCurrency(r),
 		"currencies":    currencies,
-		"products":      ps,
+		"products":      ps, //products available in html templates
 		"cart_size":     len(cart),
 		"banner_color":  os.Getenv("BANNER_COLOR"), // illustrates canary deployments
 		"ad":            fe.chooseAd(r.Context(), []string{}, log),
@@ -101,6 +115,18 @@ func (fe *frontendServer) productHandler(w http.ResponseWriter, r *http.Request)
 		renderHTTPError(log, r, w, errors.Wrap(err, "could not retrieve product"), http.StatusInternalServerError)
 		return
 	}
+
+	//handler for products -> gets a rating with gRPC call and productID -> saves it in rating
+	rating, err := fe.getRating(r.Context(), id)
+	if err != nil {
+		renderHTTPError(log, r, w, errors.Wrap(err, "could not retrieve rating"), http.StatusInternalServerError)
+		return
+	}
+	//set Rating to 0 if there is no rating to the product inside DB
+	if math.IsNaN(rating.GetValue()) {
+		rating.Value = 0
+	}
+
 	currencies, err := fe.getCurrencies(r.Context())
 	if err != nil {
 		renderHTTPError(log, r, w, errors.Wrap(err, "could not retrieve currencies"), http.StatusInternalServerError)
@@ -128,7 +154,8 @@ func (fe *frontendServer) productHandler(w http.ResponseWriter, r *http.Request)
 	product := struct {
 		Item  *pb.Product
 		Price *pb.Money
-	}{p, price}
+		Rating *pb.GetRatingResponse //added to product for html templates in the form of a GetaRatingResponse
+	}{p, price, rating}//static: &pb.GetRatingResponse{Value:2.25, Ratings:4} dynamic: added rating
 
 	if err := templates.ExecuteTemplate(w, "product", map[string]interface{}{
 		"session_id":      sessionID(r),
@@ -136,7 +163,7 @@ func (fe *frontendServer) productHandler(w http.ResponseWriter, r *http.Request)
 		"ad":              fe.chooseAd(r.Context(), p.Categories, log),
 		"user_currency":   currentCurrency(r),
 		"currencies":      currencies,
-		"product":         product,
+		"product":         product, //product available in html templates
 		"recommendations": recommendations,
 		"cart_size":       len(cart),
 	}); err != nil {
@@ -394,4 +421,15 @@ func cartIDs(c []*pb.CartItem) []string {
 
 func renderMoney(money pb.Money) string {
 	return fmt.Sprintf("%s %d.%02d", money.GetCurrencyCode(), money.GetUnits(), money.GetNanos()/10000000)
+}
+
+//function to calculate the percentage for the star width in CSS attribute
+func renderRating(rating pb.GetRatingResponse) string {
+	//if rating is not a number (not set) return 0%
+	if math.IsNaN(rating.GetValue()) {
+		return fmt.Sprintf("0%%")
+	} 
+	//else do the math
+	percentage := uint((rating.GetValue() / 5)*100)
+	return fmt.Sprintf("%d%%", percentage)
 }
