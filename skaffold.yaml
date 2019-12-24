@@ -42,7 +42,6 @@ build:
   #   context: src/loadgenerator
   # - image: adservice
   #   context: src/adservice
-  
   tagPolicy:
     gitCommit: {}
 deploy:
