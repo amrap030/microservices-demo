@@ -11,10 +11,13 @@
                     </div>
                     <div class="col-12 col-lg-7">
                             <h2>{{$.product.Item.Name}}</h2>
-                            
-                            <p class="text-muted">
-                                {{ renderMoney $.product.Price}}
-                            </p>
+                                    <!-- Stars in Product Page -->
+                                    <p class="text-muted float-left">
+                                        {{ renderMoney $.product.Price}}
+                                        <div class="text-right">
+                                            {{ template "rating" . }}
+                                        </div>    
+                                    </p>       
                             <hr/>
                             <p>
                                 <h6>Product Description:</h6>

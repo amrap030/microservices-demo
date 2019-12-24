@@ -32,8 +32,12 @@
                                 src="{{.Item.Picture}}">
                         </a>
                         <div class="card-body">
-                            <h5 class="card-title">
+                            <!-- Stars in Home Page -->
+                            <h5 class="card-title text-left">
                                 {{ .Item.Name }}
+                                <div class="float-right">
+                                    {{ template "ratings" . }}
+                                </div>
                             </h5>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
