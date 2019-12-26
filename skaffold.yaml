@@ -36,10 +36,10 @@ build:
   #   context: src/currencyservice
   # - image: cartservice
   #   context: src/cartservice
-  - image: frontend
-    context: src/frontend
-  # - image: loadgenerator
-  #   context: src/loadgenerator
+  # - image: frontend
+  #   context: src/frontend
+   - image: loadgenerator
+     context: src/loadgenerator
   # - image: adservice
   #   context: src/adservice
   tagPolicy:
@@ -47,7 +47,7 @@ build:
 deploy:
   kubectl:
     manifests:
-    - ./kubernetes-manifests/frontend.yaml
+    - ./kubernetes-manifests/loadgenerator.yaml
 profiles:
 # "travis-ci" profile is used to build the images without
 # pushing them.

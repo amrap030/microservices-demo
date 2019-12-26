@@ -39,10 +39,10 @@ def setCurrency(l):
 def browseProduct(l):
     l.client.get("/product/" + random.choice(products))
 
-def rateProduct(l):
-    ratings = [1,2,3,4,5]
-    l.client.post("/product",
-        {'productID': random.choice(products), 'rating': random.choice(ratings)})
+#def rateProduct(l):
+#    ratings = [1,2,3,4,5]
+#    l.client.post("/product",
+#        {'product_id': random.choice(products), 'rating': random.choice(ratings)})
 
 def viewCart(l):
     l.client.get("/cart")
@@ -80,8 +80,21 @@ class UserBehavior(TaskSet):
         addToCart: 2,
         viewCart: 3,
         checkout: 1}
+        #rateProduct: 2
+
+#class RatingBehavior(TaskSet):
+#
+#    def on_start(self):
+#        index(self)
+#
+#    tasks = {rateProduct: 2}
 
 class WebsiteUser(HttpLocust):
     task_set = UserBehavior
     min_wait = 1000
     max_wait = 10000
+
+#class RatingUser(HttpLocust):
+#    task_set = RatingBehavior
+#    min_wait = 30000
+#    max_wait = 600000
