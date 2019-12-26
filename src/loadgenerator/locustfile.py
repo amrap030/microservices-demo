@@ -39,6 +39,11 @@ def setCurrency(l):
 def browseProduct(l):
     l.client.get("/product/" + random.choice(products))
 
+def rateProduct(l):
+    ratings = [1,2,3,4,5]
+    l.client.post("/product",
+        {'productID': random.choice(products), 'rating': random.choice(ratings)})
+
 def viewCart(l):
     l.client.get("/cart")
 

@@ -195,6 +195,25 @@ func (fe *frontendServer) addToCartHandler(w http.ResponseWriter, r *http.Reques
 	w.WriteHeader(http.StatusFound)
 }
 
+//addRatingHandler
+func (fe *frontendServer) addRatingHandler(w http.ResponseWriter, r *http.Request) {
+	log := r.Context().Value(ctxKeyLog{}).(logrus.FieldLogger)
+	rating, _ := strconv.ParseUint(r.FormValue("rating"), 10, 32)
+	productID := r.FormValue("product_id")
+	if productID == "" || &rating == nil {
+		renderHTTPError(log, r, w, errors.New("invalid form input"), http.StatusBadRequest)
+		return
+	}
+	log.WithField("product", productID).WithField("rating", rating).Debug("adding rating to product")
+
+	if err := fe.addRating(r.Context(), productID, int32(rating)); err != nil {
+		renderHTTPError(log, r, w, errors.Wrap(err, "could not add rating to product"), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("location", "/product/" + productID)
+	w.WriteHeader(http.StatusFound)
+}
+
 func (fe *frontendServer) emptyCartHandler(w http.ResponseWriter, r *http.Request) {
 	log := r.Context().Value(ctxKeyLog{}).(logrus.FieldLogger)
 	log.Debug("emptying cart")

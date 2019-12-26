@@ -65,6 +65,17 @@ func (fe *frontendServer) getRating(ctx context.Context, id string) (*pb.GetRati
 	return resp, err
 }
 
+//addRating gRPC call
+//return value {}
+//NewFiveStarRatingServiceClient defined in demo.pb.go
+//Rating defined in demo.pb.go
+//ratingSvcConn defined in main.go
+func (fe *frontendServer) addRating(ctx context.Context, id string, rating int32) error {
+	_, err := pb.NewFiveStarRatingServiceClient(fe.ratingSvcConn).
+		AddRating(ctx, &pb.Rating{ProductID: id, Rating: rating})
+	return err
+}
+
 func (fe *frontendServer) getCart(ctx context.Context, userID string) ([]*pb.CartItem, error) {
 	resp, err := pb.NewCartServiceClient(fe.cartSvcConn).GetCart(ctx, &pb.GetCartRequest{UserId: userID})
 	return resp.GetItems(), err
