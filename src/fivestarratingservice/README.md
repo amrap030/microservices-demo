@@ -20,7 +20,7 @@ The folderstructure follows a MVC (Model View Controller) principle inside a fol
 
 The microservice is written in Node.js. It can communicate with other microservices using gRPC. The service provides the following functions that are specified in a proto file:
 
-```
+```proto
 syntax = "proto3";
 
 package hipstershop;
@@ -51,7 +51,7 @@ message Empty {}
 
 The addRating() function expects a rating in the following format:
 
-```{json}
+```json
 {
     "productID": "2ZYFJ3GM2N",
     "rating": 3
@@ -62,7 +62,7 @@ This function saves a rating to a product with the specified productID in the mo
 
 The getRating() function expects a productID in the following format:
 
-```{json}
+```json
 {
     "productID": "2ZYFJ3GM2N"
 }
@@ -70,7 +70,7 @@ The getRating() function expects a productID in the following format:
 
 This function fetches all ratings to the specified product from the mongoDB database and calculates the average rating and the amount of ratings. It returns the following object:
 
-```{json}
+```json
 {
     "value": 3,75,
     "ratings": 6
