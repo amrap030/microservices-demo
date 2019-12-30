@@ -48,7 +48,6 @@ async function addRating(call, callback) {
 
         logger.info(`addRating() invoked with request ${JSON.stringify(call.request)}`);
         const data = await Ratings({ productID, rating }).save();
-        console.log(data);
         callback(null, data);
     } catch (err) {
         logger.error(`addRating() failed: ${err}`);

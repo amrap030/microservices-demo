@@ -7,14 +7,15 @@ require('@google-cloud/profiler').start({
       service: 'paymentservice',
       version: '1.0.0'
     }
-  });
-  require('@google-cloud/trace-agent').start();
-  require('@google-cloud/debug-agent').start({
+});
+
+require('@google-cloud/trace-agent').start();
+require('@google-cloud/debug-agent').start({
     serviceContext: {
       service: 'fivestarratingservice',
       version: 'VERSION'
     }
-  });
+});
 
 const PORT = process.env.PORT;
 
