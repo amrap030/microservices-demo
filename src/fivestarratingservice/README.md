@@ -72,7 +72,7 @@ This function fetches all ratings to the specified product from the mongoDB data
 
 ```json
 {
-    "value": 3,75,
+    "value": 3.75,
     "ratings": 6
 }
 ```
