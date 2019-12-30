@@ -49,7 +49,7 @@ message ProductID {
 message Empty {}
 ```
 
-The addRating() function expects a rating in the following format:
+The **addRating()** function expects a rating in the following format:
 
 ```json
 {
@@ -58,9 +58,9 @@ The addRating() function expects a rating in the following format:
 }
 ```
 
-This function saves a rating to a product with the specified productID in the mongoDB database. The addRating() function returns an empty Object {}. 
+This function saves a rating to a product with the specified productID in the mongoDB database. The **addRating()** function returns an empty Object {}. 
 
-The getRating() function expects a productID in the following format:
+The **getRating()** function expects a productID in the following format:
 
 ```json
 {
@@ -76,6 +76,10 @@ This function fetches all ratings to the specified product from the mongoDB data
     "ratings": 6
 }
 ```
+
+## Testing/Validation
+
+The JavaScript testing framework [Jest](https://github.com/facebook/jest) is used for both unit- and integration testing.
 
 ## Building docker image
 
