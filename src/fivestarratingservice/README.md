@@ -79,7 +79,21 @@ This function fetches all ratings to the specified product from the mongoDB data
 
 ## Testing/Validation
 
-The JavaScript testing framework [Jest](https://github.com/facebook/jest) is used for both unit- and integration testing.
+The JavaScript testing framework [Jest](https://github.com/facebook/jest) is used for both unit- and integration testing. The following command runs all test suites:
+
+```json
+npm test
+```
+
+Additionally there is the possibility to generate a code coverage report using [Istanbul](https://github.com/istanbuljs) that is built into Jest. The following command runs all test suites and generated a code coverage report:
+
+```json
+npm run test:coverage
+```
+
+For validation against the Schema definition of a rating a library called [@hapi/joi](https://github.com/hapijs/joi) is used. Joi is part of the hapi ecosystem and was designed to work seamlessly with the hapi web framework and its other components.
+
+All of these modules are saved as DevDependencies and are not part of the build, when building a Docker image.
 
 ## Building docker image
 
