@@ -10,5 +10,8 @@ module.exports = function computeRating (request) {
     }, 0);
     const ratings = request.length
     const value = Number((Math.round((totalRatings/ratings) * 100)/100).toFixed(2)); //rounding to 2 digits after comma
+    if (isNaN(value)) {
+        return { value: 0, ratings: 0 };
+    }
     return { value: value, ratings: ratings };
 };

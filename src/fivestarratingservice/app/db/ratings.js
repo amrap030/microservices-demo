@@ -1,9 +1,10 @@
+const Joi = require('@hapi/joi');
 const db = require('./db');
 const computeRatings = require('../controllers/calculation');
 const pino = require('pino');
 
 const logger = pino({
-    name: 'currencyservice-server',
+    name: 'fivestarratingservice-server',
     messageKey: 'message',
     changeLevelName: 'severity',
     useLevelLabels: true
@@ -15,7 +16,6 @@ async function getRating(call, callback) {
     try {
         logger.info(`getRating() invoked with request ${JSON.stringify(call.request)}`);
         const data = await Ratings.find(call.request);
-        console.log(data)
         value = computeRatings(data);
         callback(null, value);
     } catch (err) {
@@ -25,13 +25,29 @@ async function getRating(call, callback) {
 };
 
 async function addRating(call, callback) {
+    const { productID, rating } = call.request;
     try {
-        let rating = {
-            productID: call.request.productID,
-            rating: call.request.rating
-        };
+        const schema = Joi.object({
+            productID: Joi.string()
+                .min(10)
+                .max(10)
+                .required(),
+            rating: Joi.number()
+                .integer()
+                .min(1)
+                .max(5),
+        });
+        
+        try {
+            const value = await schema.validateAsync({ productID, rating });
+        }
+        catch (err) { 
+            logger.error(`validation failed: ${err}`);
+            callback(err)
+        }
+
         logger.info(`addRating() invoked with request ${JSON.stringify(call.request)}`);
-        const data = await Ratings(rating).save();
+        const data = await Ratings({ productID, rating }).save();
         console.log(data);
         callback(null, data);
     } catch (err) {

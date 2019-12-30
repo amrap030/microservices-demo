@@ -2,10 +2,24 @@ const grpc = require('grpc');
 const protoLoader = require('@grpc/proto-loader');
 const pino = require('pino');
 
+require('@google-cloud/profiler').start({
+    serviceContext: {
+      service: 'paymentservice',
+      version: '1.0.0'
+    }
+  });
+  require('@google-cloud/trace-agent').start();
+  require('@google-cloud/debug-agent').start({
+    serviceContext: {
+      service: 'fivestarratingservice',
+      version: 'VERSION'
+    }
+  });
+
 const PORT = process.env.PORT;
 
 const logger = pino({
-    name: 'currencyservice-server',
+    name: 'fivestarratingservice-server',
     messageKey: 'message',
     changeLevelName: 'severity',
     useLevelLabels: true

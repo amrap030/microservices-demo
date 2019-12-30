@@ -3,7 +3,7 @@ const { RatingSchema } = require('../models');
 const pino = require('pino');
 
 const logger = pino({
-    name: 'currencyservice-server',
+    name: 'fivestarratingservice-server',
     messageKey: 'message',
     changeLevelName: 'severity',
     useLevelLabels: true
