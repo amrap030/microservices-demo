@@ -2,6 +2,10 @@
 
 The fivestarratingservice allows a User to leave a rating to a product from 1 to 5 stars. These ratings are saved and fetched from a MongoDB database configured as a replicaset. All ratings are then displayed in the frontend on the "Home" and "Product" Page.
 
+**Integration:**
+
+The fivestarratingservice integrates right after the frontend. The frontend provides the productID's that we can use to identify products and save ratings to this specific products. To save and fetch ratings, the fivestarrating service is connected to a mongoDB database configured as a replicaset.
+
 **Future implementations:**
 
 - possibility to leave a comment on a product
