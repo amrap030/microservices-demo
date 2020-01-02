@@ -40,6 +40,7 @@ build:
      context: src/frontend
    - image: fivestarratingservice
      context: src/fivestarratingservice
+     
   # - image: loadgenerator
   #   context: src/loadgenerator
    - image: adservice
