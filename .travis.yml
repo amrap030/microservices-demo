@@ -26,4 +26,4 @@ script: echo "This should be running tests for continuous integration"
 
 # Deploy  to Google Kubernetes Engine
 after_success:
-- if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then ./deploy.sh; fi
+- if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "5sr-leave-a-rating-to-a-product" ]; then ./deploy.sh; fi
