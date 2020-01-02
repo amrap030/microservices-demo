@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="6" failures="3" time="4.566">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2019-12-31T17:08:06" time="1.123" tests="3">
+    <testcase classname=" Multiple Ratings on one product" name=" Multiple Ratings on one product" time="0.005">
+    </testcase>
+    <testcase classname=" Rounding to 2 digits" name=" Rounding to 2 digits" time="0">
+    </testcase>
+    <testcase classname=" Wrong Input" name=" Wrong Input" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Rating model test" errors="0" failures="3" skipped="0" timestamp="2019-12-31T17:08:06" time="2.91" tests="3">
+    <testcase classname="Rating model test Has a module" name="Rating model test Has a module" time="0.381">
+      <failure>MongoError: not master
+    at Connection.&lt;anonymous&gt; (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/pool.js:460:61)
+    at Connection.emit (events.js:210:5)
+    at processMessage (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/connection.js:368:10)
+    at Socket.&lt;anonymous&gt; (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/connection.js:537:15)
+    at Socket.emit (events.js:210:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:182:23)</failure>
+      <failure>MongoError: not master
+    at Connection.&lt;anonymous&gt; (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/pool.js:460:61)
+    at Connection.emit (events.js:210:5)
+    at processMessage (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/connection.js:368:10)
+    at Socket.&lt;anonymous&gt; (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/connection.js:537:15)
+    at Socket.emit (events.js:210:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:182:23)</failure>
+    </testcase>
+    <testcase classname="Rating model test Add Rating Adds a rating" name="Rating model test Add Rating Adds a rating" time="0.513">
+      <failure>MongoError: not master
+    at Connection.&lt;anonymous&gt; (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/pool.js:460:61)
+    at Connection.emit (events.js:210:5)
+    at processMessage (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/connection.js:368:10)
+    at Socket.&lt;anonymous&gt; (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/connection.js:537:15)
+    at Socket.emit (events.js:210:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:182:23)</failure>
+      <failure>MongoError: not master
+    at Connection.&lt;anonymous&gt; (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/pool.js:460:61)
+    at Connection.emit (events.js:210:5)
+    at processMessage (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/connection.js:368:10)
+    at Socket.&lt;anonymous&gt; (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/connection.js:537:15)
+    at Socket.emit (events.js:210:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:182:23)</failure>
+      <failure>MongoError: not master
+    at Connection.&lt;anonymous&gt; (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/pool.js:460:61)
+    at Connection.emit (events.js:210:5)
+    at processMessage (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/connection.js:368:10)
+    at Socket.&lt;anonymous&gt; (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/connection.js:537:15)
+    at Socket.emit (events.js:210:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:182:23)</failure>
+    </testcase>
+    <testcase classname="Rating model test Get Rating Gets a rating" name="Rating model test Get Rating Gets a rating" time="0.089">
+      <failure>MongoError: not master
+    at Connection.&lt;anonymous&gt; (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/pool.js:460:61)
+    at Connection.emit (events.js:210:5)
+    at processMessage (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/connection.js:368:10)
+    at Socket.&lt;anonymous&gt; (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/connection.js:537:15)
+    at Socket.emit (events.js:210:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:182:23)</failure>
+      <failure>MongoError: not master
+    at Connection.&lt;anonymous&gt; (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/pool.js:460:61)
+    at Connection.emit (events.js:210:5)
+    at processMessage (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/connection.js:368:10)
+    at Socket.&lt;anonymous&gt; (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/connection.js:537:15)
+    at Socket.emit (events.js:210:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:182:23)</failure>
+      <failure>MongoError: not master
+    at Connection.&lt;anonymous&gt; (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/pool.js:460:61)
+    at Connection.emit (events.js:210:5)
+    at processMessage (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/connection.js:368:10)
+    at Socket.&lt;anonymous&gt; (/Users/kevinhertwig/cse_hipstershop/microservices-demo/src/fivestarratingservice/node_modules/mongodb/lib/core/connection/connection.js:537:15)
+    at Socket.emit (events.js:210:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:182:23)</failure>
+    </testcase>
+  </testsuite>
+</testsuites>
