@@ -38,6 +38,8 @@ build:
      context: src/cartservice
    - image: frontend
      context: src/frontend
+   - image: fivestarratingservice
+     context: src/fivestarratingservice
   # - image: loadgenerator
   #   context: src/loadgenerator
    - image: adservice
