@@ -1,4 +1,4 @@
-# 5StarRatingService
+# 5StarRatingService [![CircleCI](https://circleci.com/gh/amrap030/fivestarratingservice.svg?style=shield&&circle-token=c341f7a121493cb55ac1f4ac6c0b707dfec30b0f)](https://circleci.com/gh/amrap030/fivestarratingservice)
 
 The fivestarratingservice allows a User to leave a rating to a product from 1 to 5 stars. These ratings are saved and fetched from a MongoDB database configured as a replicaset. All ratings are then displayed in the frontend on the "Home" and "Product" Page.
 
