@@ -28,7 +28,8 @@ const logger = pino({
 
 const {
     getRating,
-    addRating
+    addRating,
+    getRatings
 } = require('./app/db/ratings');
 
 //verschoenern!     
@@ -60,7 +61,8 @@ function check (call, callback) {
     const server = new grpc.Server();
     server.addService(ratingPackage.fiveStarRatingService.service, {
         getRating,
-        addRating
+        addRating,
+        getRatings
     });
     server.addService(healthPackage.Health.service, {check});
     server.bind(

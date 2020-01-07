@@ -26,18 +26,14 @@
     "@google-cloud/trace-agent": "4.0.1",
     "@grpc/proto-loader": "^0.1.0",
     "@hapi/joi": "^16.1.8",
-    "@opencensus/exporter-jaeger": "0.0.19",
     "grpc": "^1.22.2",
-    "jest-junit": "^10.0.0",
     "mongoose": "^5.7.13",
     "pino": "^5.6.2"
   },
   "devDependencies": {
     "jest": "^24.9.0",
     "nodemon": "^2.0.1",
-    "nyc": "^14.1.1"
-  },
-  "jest": {
-    "reporters": [ "default", "jest-junit" ]
+    "nyc": "^14.1.1",
+    "sinon": "^8.0.1"
   }
 }
