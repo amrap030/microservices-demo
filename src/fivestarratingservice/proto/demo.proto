@@ -7,16 +7,24 @@ package hipstershop;
 service fiveStarRatingService {
     rpc addRating (Rating) returns (Empty); 
     rpc getRating (ProductID) returns (getRatingResponse); 
+    rpc getRatings (ProductID) returns (getRatingsResponse);
 }
 
 message Rating {
     string productID = 1;
     int32 rating = 2;
+    string name = 3;
+    string comment = 4;
+    string createdAt = 5;
 }
 
 message getRatingResponse {
     double value = 1;
     int32 ratings = 2;
+}
+
+message getRatingsResponse {
+    repeated Rating ratings = 1; 
 }
 
 message ProductID {
