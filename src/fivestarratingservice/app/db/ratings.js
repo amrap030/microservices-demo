@@ -24,8 +24,20 @@ async function getRating(call, callback) {
     };
 };
 
+async function getRatings(call, callback) {
+    try {
+        logger.info(`getRatings() invoked with request ${JSON.stringify(call.request)}`);
+        const data = await Ratings.find(call.request);
+        console.log(data);
+        callback(null, { "ratings": Array.from(data) });
+    } catch (err) {
+        logger.error(`getRatings() failed: ${err}`);
+        callback(err);
+    };
+};
+
 async function addRating(call, callback) {
-    const { productID, rating } = call.request;
+    const { productID, rating, name, comment } = call.request;
     try {
         const schema = Joi.object({
             productID: Joi.string()
@@ -36,10 +48,14 @@ async function addRating(call, callback) {
                 .integer()
                 .min(1)
                 .max(5),
+            name: Joi.string()
+                .required(),
+            comment: Joi.string()
+                .required(),   
         });
         
         try {
-            const value = await schema.validateAsync({ productID, rating });
+            const value = await schema.validateAsync({ productID, rating, name, comment });
         }
         catch (err) { 
             logger.error(`validation failed: ${err}`);
@@ -47,7 +63,7 @@ async function addRating(call, callback) {
         }
 
         logger.info(`addRating() invoked with request ${JSON.stringify(call.request)}`);
-        const data = await Ratings({ productID, rating }).save();
+        const data = await Ratings({ productID, rating, name, comment }).save();
         callback(null, data);
     } catch (err) {
         logger.error(`addRating() failed: ${err}`);
@@ -57,5 +73,6 @@ async function addRating(call, callback) {
 
 module.exports = {
     getRating,
-    addRating
+    addRating,
+    getRatings
 };
