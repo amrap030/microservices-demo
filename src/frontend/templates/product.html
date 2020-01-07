@@ -53,24 +53,69 @@
                 {{ with $.ad }}{{ template "text_ad" . }}{{ end}}
                 <hr/>
 
-                <form method="POST" action="/product" class="form-inline text-muted">
-                    <input type="hidden" name="product_id" value="{{$.product.Item.Id}}"/>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="rating">Rating</label>
+                <form method="POST" action="/product" class="text-muted">
+                    <div class="row" style="margin-bottom: 16px">
+                        <div class="col-md-2">
+                            <input type="hidden" name="product_id" value="{{$.product.Item.Id}}"/>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="rating">Rating</label>
+                                </div>
+                                <select name="rating" id="rating" class="custom-select form-control form-control-lg">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
                         </div>
-                        <select name="rating" id="rating" class="custom-select form-control form-control-lg">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                        <button type="submit" class="btn btn-info btn-lg ml-3">Rate Product</button>
                     </div>
-                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" name="name" id="name" aria-describedby="nameHelp" required>
+                                <small id="nameHelp" class="form-text text-muted">Please type in your name.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="comment">Example textarea</label>
+                                <textarea class="form-control" name="comment" id="comment" rows="3" required></textarea>
+                            </div>
+                        </div>    
+                    </div>   
+                    <div class="row">
+                        <button type="submit" class="btn btn-info btn-lg ml-3">Rate Product</button>
+                    </div>    
                 </form>
+                {{ if $.product.Ratings }}
+                <hr/>
+                {{ end }}
+                {{ range $.product.Ratings }}
 
+                    <div class="container">
+                        <div class="row">
+                                <h6>{{ .Name }}</h6>
+                        </div>
+                        <div class="row">
+                            <div class="stars-outer-comment">
+                                <!-- function call in CSS attribute -->
+                                <div class="stars-inner-comment" style="width: {{ renderCommentRating .Rating }};"></div>
+                            </div>
+                            <div class="row" style="margin-left: 10px;">
+                                <small>{{ renderCommentDate .CreatedAt }}</small>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p>{{ .Comment }}</p>
+                        </div>
+                    </div>
+
+                {{ end }}
             </div>
         </div>
     
