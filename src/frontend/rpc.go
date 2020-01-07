@@ -55,7 +55,7 @@ func (fe *frontendServer) getProduct(ctx context.Context, id string) (*pb.Produc
 }
 
 //getRating gRPC call
-//return value *pb.GetRatingRespons
+//return value *pb.GetRatingResponse
 //NewFiveStarRatingServiceClient defined in demo.pb.go
 //ProductID defined in demo.pb.go
 //ratingSvcConn defined in main.go
@@ -65,14 +65,25 @@ func (fe *frontendServer) getRating(ctx context.Context, id string) (*pb.GetRati
 	return resp, err
 }
 
+//getRatings gRPC call
+//return value []*pb.Rating
+//NewFiveStarRatingServiceClient defined in demo.pb.go
+//ProductID defined in demo.pb.go
+//ratingSvcConn defined in main.go
+func (fe *frontendServer) getRatings(ctx context.Context, id string) ([]*pb.Rating, error) {
+	resp, err := pb.NewFiveStarRatingServiceClient(fe.ratingSvcConn).
+		GetRatings(ctx, &pb.ProductID{ProductID: id})
+	return resp.GetRatings(), err
+}
+
 //addRating gRPC call
 //return value {}
 //NewFiveStarRatingServiceClient defined in demo.pb.go
 //Rating defined in demo.pb.go
 //ratingSvcConn defined in main.go
-func (fe *frontendServer) addRating(ctx context.Context, id string, rating int32) error {
+func (fe *frontendServer) addRating(ctx context.Context, id string, rating int32, name string, comment string) error {
 	_, err := pb.NewFiveStarRatingServiceClient(fe.ratingSvcConn).
-		AddRating(ctx, &pb.Rating{ProductID: id, Rating: rating})
+		AddRating(ctx, &pb.Rating{ProductID: id, Rating: rating, Name: name, Comment: comment})
 	return err
 }
 

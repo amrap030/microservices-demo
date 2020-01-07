@@ -38,6 +38,8 @@ var (
 		Funcs(template.FuncMap{
 			"renderMoney": renderMoney,
 			"renderRating": renderRating,
+			"renderCommentRating": renderCommentRating,
+			"renderCommentDate": renderCommentDate,
 		}).ParseGlob("templates/*.html"))
 )
 
@@ -75,6 +77,7 @@ func (fe *frontendServer) homeHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		//get Ratings for each product
 		rating, err := fe.getRating(r.Context(), p.Id)
+
 		if err != nil {
 			renderHTTPError(log, r, w, errors.Wrap(err, "could not retrieve rating"), http.StatusInternalServerError)
 			return
@@ -127,6 +130,13 @@ func (fe *frontendServer) productHandler(w http.ResponseWriter, r *http.Request)
 		rating.Value = 0
 	}
 
+	//handler for products -> gets all ratings with gRPC call and productID -> saves it in ratings
+	ratings, err := fe.getRatings(r.Context(), id)
+	if err != nil {
+		renderHTTPError(log, r, w, errors.Wrap(err, "could not retrieve ratings"), http.StatusInternalServerError)
+		return
+	}
+
 	currencies, err := fe.getCurrencies(r.Context())
 	if err != nil {
 		renderHTTPError(log, r, w, errors.Wrap(err, "could not retrieve currencies"), http.StatusInternalServerError)
@@ -154,8 +164,9 @@ func (fe *frontendServer) productHandler(w http.ResponseWriter, r *http.Request)
 	product := struct {
 		Item  *pb.Product
 		Price *pb.Money
-		Rating *pb.GetRatingResponse //added to product for html templates in the form of a GetaRatingResponse
-	}{p, price, rating}//static: &pb.GetRatingResponse{Value:2.25, Ratings:4} dynamic: added rating
+		Rating *pb.GetRatingResponse //added to product for html templates in the form of a GetRatingResponse
+		Ratings []*pb.Rating //added to product for html templates to display commentsection
+	}{p, price, rating, ratings}//static: &pb.GetRatingResponse{Value:2.25, Ratings:4} dynamic: added rating
 
 	if err := templates.ExecuteTemplate(w, "product", map[string]interface{}{
 		"session_id":      sessionID(r),
@@ -199,14 +210,16 @@ func (fe *frontendServer) addToCartHandler(w http.ResponseWriter, r *http.Reques
 func (fe *frontendServer) addRatingHandler(w http.ResponseWriter, r *http.Request) {
 	log := r.Context().Value(ctxKeyLog{}).(logrus.FieldLogger)
 	rating, _ := strconv.ParseUint(r.FormValue("rating"), 10, 32)
+	name := r.FormValue("name")
+	comment := r.FormValue("comment")
 	productID := r.FormValue("product_id")
-	if productID == "" || &rating == nil {
+	if productID == "" || &name == nil || &comment == nil || &rating == nil {
 		renderHTTPError(log, r, w, errors.New("invalid form input"), http.StatusBadRequest)
 		return
 	}
-	log.WithField("product", productID).WithField("rating", rating).Debug("adding rating to product")
+	log.WithField("product", productID).WithField("name", name).WithField("rating", rating).WithField("comment", comment).Debug("adding rating to product")
 
-	if err := fe.addRating(r.Context(), productID, int32(rating)); err != nil {
+	if err := fe.addRating(r.Context(), productID, int32(rating), string(name), string(comment)); err != nil {
 		renderHTTPError(log, r, w, errors.Wrap(err, "could not add rating to product"), http.StatusInternalServerError)
 		return
 	}
@@ -451,4 +464,21 @@ func renderRating(rating pb.GetRatingResponse) string {
 	//else do the math
 	percentage := uint((rating.GetValue() / 5)*100)
 	return fmt.Sprintf("%d%%", percentage)
+}
+
+//function to calculate the percentage for commentsection
+func renderCommentRating(commentRating int32) string {
+	//if commentRating is not a number (not set) return 0%
+	if math.IsNaN(float64(commentRating)) {
+		return fmt.Sprintf("0%%")
+	}
+	//else do the math
+	percentage := uint32((float64(commentRating) / 5)*100)
+	return fmt.Sprintf("%d%%", percentage)
+}
+
+//function to render the date in comments
+func renderCommentDate(commentDate string) string {
+	date:=commentDate[:len(commentDate)-15]
+	return fmt.Sprintf("%s", date)
 }
