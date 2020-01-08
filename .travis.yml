@@ -1,3 +1,7 @@
+branches:
+  only:
+  - master
+
 sudo: required
 
 services:
@@ -8,5 +12,18 @@ install:
 - chmod +x skaffold
 - sudo mv skaffold /usr/local/bin
 
-script:
-- skaffold build --profile travis-ci
+cache:
+  directories:
+  # We cache the SDK so we don't have to download it again on subsequent builds.
+  - $HOME/google-cloud-sdk
+
+env:
+  global:
+  # Do not prompt for user input when using any SDK methods.
+  - CLOUDSDK_CORE_DISABLE_PROMPTS=1
+
+script: echo "This should be running tests for continuous integration"
+
+# Deploy  to Google Kubernetes Engine
+after_success:
+- if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then ./deploy.sh; fi
