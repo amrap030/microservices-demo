@@ -1,14 +1,11 @@
 version: 2
 jobs:
   test:
-    working_directory: ~/fivestarrating
+    working_directory: ~/fivestarratingservice
 
     docker:
-        - image: circleci/node:7.10
-        - image: circleci/mongo:latest
-        #environment:
-         # POSTGRES_USER: root
-          #POSTGRES_DB: quotes
+      - image: circleci/node:7.10
+      - image: circleci/mongo:3
 
     steps:
       - checkout
@@ -18,57 +15,91 @@ jobs:
             - v1-dependencies-{{ checksum "package.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-
-      - run: npm install
+      
+      - run: 
+          name: Installing dependencies  
+          command: npm install
       
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+
       - run:
-          name: Unit testing
-          command: npm run test:coverage
-
+          name: "Unit Testing"
+          command: |
+              mkdir test-results
+              cd test-results
+              mkdir jest
+              cd ..
+              npm test --ci --reporters=default --reporters=jest-junit
+              mv ~/fivestarratingservice/junit.xml ~/fivestarratingservice/test-results/jest/
+      - store_test_results:
+          path: test-results/
       - store_artifacts:
-         path: coverage
+          path: test-results/
+      
+      - run:
+          name: "Code Coverage"
+          command: npm run test:coverage
+      - store_artifacts:
+          path: coverage/
 
-  #build-and-push-image:
-   #  docker:
-    #   - image: google/cloud-sdk
+  build-and-push-image:
+    docker:
+      - image: google/cloud-sdk
 
-     #steps:
-      # - checkout
-       #- attach_workspace:
-        #   at: .
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: 
+          name: get gcloud service key
+          command: echo ${GCLOUD_SERVICE_KEY} | base64 --decode -i > ${HOME}/gcloud-service-key.json
+      - setup_remote_docker:
+          version: 18.06.0-ce
+      - run: 
+          name: authenticate gcloud
+          command: gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+      - run: 
+          name: authenticate docker
+          command: gcloud auth configure-docker
+      - run: 
+          name: set gcloud project
+          command: gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+      - run: 
+          name: build docker image
+          command: docker build -t gcr.io/${GOOGLE_PROJECT_ID}/${IMAGE_NAME}:${IMAGE_VERSION} .
+      - run: 
+          name: push docker image to gcr
+          command: docker push gcr.io/${GOOGLE_PROJECT_ID}/${IMAGE_NAME}:${IMAGE_VERSION}
 
-       #- run: echo ${GCLOUD_SERVICE_KEY} | base64 --decode -i > ${HOME}/gcloud-service-key.json
-       #- setup_remote_docker:
-       #    version: 18.06.0-ce
-       #- run: gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
-       #- run: gcloud auth configure-docker
-       #- run: gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
-       #- run: docker build -t gcr.io/${GOOGLE_PROJECT_ID}/${IMAGE_NAME}:${IMAGE_VERSION} .
-       #- run: docker push gcr.io/${GOOGLE_PROJECT_ID}/${IMAGE_NAME}:${IMAGE_VERSION}
-       
-  #deploy:
-   #  working_directory: ~/fivestarrating
-    # docker:
-     #  - image: google/cloud-sdk
-     #steps:
-      # - checkout
-       #- run:
-        #   name: install requirements
-         #  command: |
-          #   apt update
-           #  apt install -qq -y gettext
-       #- run: echo ${GCLOUD_SERVICE_KEY} | base64 --decode -i > ${HOME}/gcloud-service-key.json
-       #- run: gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
-       #- run: gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-       #- run: gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
-       #- run: gcloud --quiet container clusters get-credentials demo
-       #- run:
-        #   name: deploy to GKE
-         #  command: kubectl apply -f ./fivestarrating.yaml
+  deploy:
+    working_directory: ~/fivestarratingservice
+    docker:
+      - image: google/cloud-sdk
+    steps:
+      - checkout
+      - run:
+          name: install requirements
+          command: |
+            apt update
+            apt install -qq -y gettext
+      - run: 
+          name: get gcloud service key
+          command: echo ${GCLOUD_SERVICE_KEY} | base64 --decode -i > ${HOME}/gcloud-service-key.json
+      - run: 
+          name: authenticate gcloud
+          command: gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+      - run: gcloud --quiet config set compute/zone ${GCP_COMPUTE_ZONE}
+      - run: 
+          name: set gcloud project
+          command: gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+      - run: gcloud --quiet container clusters get-credentials ${GCP_CLUSTER}
+      - run:
+          name: deploy to GKE
+          command: kubectl apply -f ./kubernetes-manifests/fivestarratingservice.yaml
+
 workflows:
   version: 2
   test-build-deploy:
@@ -77,7 +108,6 @@ workflows:
           filters:
             branches:
               ignore:
-                #- master
       - build-and-push-image:
           requires:
             - test

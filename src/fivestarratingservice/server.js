@@ -4,7 +4,7 @@ const pino = require('pino');
 
 require('@google-cloud/profiler').start({
     serviceContext: {
-      service: 'paymentservice',
+      service: 'fivestarratingservice',
       version: '1.0.0'
     }
 });
@@ -13,7 +13,7 @@ require('@google-cloud/trace-agent').start();
 require('@google-cloud/debug-agent').start({
     serviceContext: {
       service: 'fivestarratingservice',
-      version: 'VERSION'
+      version: '1.0.0'
     }
 });
 
