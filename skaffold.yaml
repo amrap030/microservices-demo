@@ -18,8 +18,9 @@ build:
   artifacts:
   # image tags are relative; to specify an image repo (e.g. GCR), you
   # must provide a "default repo" using one of the methods described 
-  # here:
+  # here: 
   # https://skaffold.dev/docs/concepts/#image-repository-handling
+<<<<<<< HEAD
     - image: emailservice
       context: src/emailservice
     - image: productcatalogservice
@@ -44,6 +45,32 @@ build:
   #  context: src/loadgenerator
     - image: adservice
       context: src/adservice
+=======
+   - image: emailservice
+     context: src/emailservice
+   - image: productcatalogservice
+     context: src/productcatalogservice
+   - image: recommendationservice
+     context: src/recommendationservice
+   - image: shippingservice
+     context: src/shippingservice
+   - image: checkoutservice
+     context: src/checkoutservice
+   - image: paymentservice
+     context: src/paymentservice
+   - image: currencyservice
+     context: src/currencyservice
+   - image: cartservice
+     context: src/cartservice
+   - image: frontend
+     context: src/frontend
+   - image: fivestarratingservice
+     context: src/fivestarratingservice
+   - image: adservice
+     context: src/adservice
+  #- image: loadgenerator
+   #  context: src/loadgenerator
+>>>>>>> 5sr-leave-a-comment-to-a-product
   tagPolicy:
     gitCommit: {}
 deploy:
