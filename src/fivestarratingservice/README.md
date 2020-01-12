@@ -67,8 +67,8 @@ The **addRating()** function expects a rating in the following format:
 {
     "productID": "2ZYFJ3GM2N",
     "rating": 3,
-    "name": 'Max Mustermann',
-    "comment": 'Das ist ein Kommentar!'
+    "name": "Max Mustermann",
+    "comment": "Das ist ein Kommentar!"
 }
 ```
 
@@ -107,14 +107,14 @@ This function fetches all ratings to the specified product from the mongoDB data
         { 
             "productID": "2ZYFJ3GM2N",
             "rating": 3,
-            "name": 'Max Mustermann',
-            "comment": 'Das ist ein Kommentar!'
+            "name": "Max Mustermann",
+            "comment": "Das ist ein Kommentar!"
         },
         { 
             "productID": "2ZYFJ3GM2N",
             "rating": 3,
-            "name": 'Max Mustermann',
-            "comment": 'Das ist ein Kommentar!'
+            "name": "Max Mustermann",
+            "comment": "Das ist ein Kommentar!"
         }]
 }
 ```
