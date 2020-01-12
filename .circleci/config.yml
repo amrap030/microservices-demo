@@ -1,7 +1,7 @@
 version: 2
 jobs:
   test:
-    working_directory: ~/src/fivestarratingservice
+    working_directory: ~/fivestarratingservice
 
     docker:
       - image: circleci/node:7.10
@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - checkout:
-          path: ~/src
+          path: ~/src/fivestarratingservice
 
       - restore_cache:
           keys:
