@@ -8,6 +8,7 @@ jobs:
       - image: circleci/mongo:3
 
     steps:
+      working_directory: ~/src/fivestarratingservice
       - checkout
 
       - restore_cache:
