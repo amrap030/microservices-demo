@@ -169,7 +169,7 @@ $ npm start
 
 The JavaScript testing framework [Jest](https://github.com/facebook/jest) is used for both unit- and integration testing. The following command runs all test suites:
 
-```bash
+```json
 $ npm test
 ```
 
