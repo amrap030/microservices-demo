@@ -1,7 +1,7 @@
 version: 2
 jobs:
   test:
-    working_directory: ~//microservices-demo/src/fivestarratingservice
+    working_directory: ~/fivestarratingservice
 
     docker:
       - image: circleci/node:7.10
@@ -9,6 +9,8 @@ jobs:
 
     steps:
       - checkout
+
+      - run: ls
 
       - restore_cache:
           keys:
