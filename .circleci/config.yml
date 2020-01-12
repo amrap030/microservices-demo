@@ -47,7 +47,7 @@ jobs:
           path: coverage/
 
   build-and-push-image:
-    working_directory: ~/fivestarratingservice
+    working_directory: ~/microservices-demo/src/fivestarratingservice
 
     docker:
       - image: google/cloud-sdk
@@ -78,7 +78,7 @@ jobs:
           command: docker push gcr.io/${GOOGLE_PROJECT_ID}/${IMAGE_NAME}:${IMAGE_VERSION}
 
   deploy:
-    working_directory: ~/fivestarratingservice
+    working_directory: ~/microservices-demo/src/fivestarratingservice
     docker:
       - image: google/cloud-sdk
     steps:
