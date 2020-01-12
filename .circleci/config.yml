@@ -1,15 +1,15 @@
 version: 2
 jobs:
   test:
-    working_directory: ~/fivestarratingservice
+    working_directory: ~/microservices-demo/src/fivestarratingservice
 
     docker:
       - image: circleci/node:7.10
       - image: circleci/mongo:3
 
     steps:
-      working_directory: ~/src/fivestarratingservice
-      - checkout
+      - checkout:
+          path: ~/microservices-demo
 
       - restore_cache:
           keys:
