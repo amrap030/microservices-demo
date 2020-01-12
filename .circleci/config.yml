@@ -13,11 +13,6 @@ jobs:
       - run: 
           command: |
               ls
-              cd src
-              ls
-              cd fivestarratingservice
-              ls
-
 
       - restore_cache:
           keys:
