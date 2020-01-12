@@ -60,23 +60,21 @@ Find **Protocol Buffers Descriptions** at the [`./pb` directory](./pb).
 - **Synthetic Load Generation:** The application demo comes with a background
   job that creates realistic usage patterns on the website using
   [Locust](https://locust.io/) load generator.
+  
+## CI/CD - Continuous Integration/Continuous Deployment
+
+Connect the Repository to Circle CI via "Add Projects" and click on the Button "Start building". Add the following Environment Variables to the Project:
+
+- **GCLOUD_SERVICE_KEY**: Google Cloud Service Account key (Compute Engine default service account)
+- **GCP_CLUSTER**: Name of Kubernetes Engine Cluster
+- **GCP_COMPUTE_ZONE**: Compute Zone of Kubernetes Engine Cluster
+- **GOOGLE_PROJECT_ID**: Name of Google Projet ID
+- **IMAGE_NAME**: fivestarratingservice
+- **IMAGE_VERSION**: latest
+
+With every code commit and push to this GitHub repository the CI/CD pipeline in Circle CI will be triggered.
 
 ## Installation
-
-We offer three installation methods:
-
-1. **Running locally with “Docker for Desktop”** (~20 minutes) You will build
-   and deploy microservices images to a single-node Kubernetes cluster running
-   on your development machine.
-
-2. **Running on Google Kubernetes Engine (GKE)”** (~30 minutes) You will build,
-   upload and deploy the container images to a Kubernetes cluster on Google
-   Cloud.
-
-3. **Using pre-built container images:** (~10 minutes, you will still need to
-   follow one of the steps above up until `skaffold run` command). With this
-   option, you will use pre-built container images that are available publicly,
-   instead of building them yourself, which takes a long time).
 
 ### Option 1: Running locally with “Docker for Desktop”
 
