@@ -1,8 +1,7 @@
 version: 2
 jobs:
   test:
-    working_directory: ~/fivestarratingservice
-    build_dir: ~/src/fivestarratingservice
+    working_directory: /src/fivestarratingservice
 
     docker:
       - image: circleci/node:7.10
