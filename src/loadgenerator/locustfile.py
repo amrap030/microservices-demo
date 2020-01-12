@@ -39,10 +39,15 @@ def setCurrency(l):
 def browseProduct(l):
     l.client.get("/product/" + random.choice(products))
 
-#def rateProduct(l):
-#    ratings = [1,2,3,4,5]
-#    l.client.post("/product",
-#        {'product_id': random.choice(products), 'rating': random.choice(ratings)})
+def rateProduct(l):
+   ratings = [1,2,3,4,5]
+   names = ['Melynda Hampshire', 'Kathaleen Eubank', 'Shelly Binns', 'Riva Allender', 'Mai Chichester', 'Eva Kitterman', 'Vernell Doom', 'Edison Lingo', 'Bianca Silveira', 'Nelly Blanton']
+   text = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.'
+   l.client.post("/product",
+       {'product_id': random.choice(products),
+        'rating': random.choice(ratings),
+        'name': random.choice(names),
+        'comment': text})
 
 def viewCart(l):
     l.client.get("/cart")
@@ -75,12 +80,12 @@ class UserBehavior(TaskSet):
         index(self)
 
     tasks = {index: 1,
+        rateProduct: 1,
         setCurrency: 2,
         browseProduct: 10,
         addToCart: 2,
         viewCart: 3,
         checkout: 1}
-        #rateProduct: 2
 
 #class RatingBehavior(TaskSet):
 #
