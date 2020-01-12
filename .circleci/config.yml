@@ -9,7 +9,6 @@ jobs:
 
     steps:
       - checkout:
-          path: ~/src/fivestarratingservice
 
       - restore_cache:
           keys:
