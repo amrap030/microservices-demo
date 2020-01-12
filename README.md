@@ -1,6 +1,6 @@
 # Hipster Shop: Cloud-Native Microservices Demo Application [![CircleCI](https://circleci.com/gh/amrap030/microservices-demo/tree/master.svg?style=shield&circle-token=e3c2b7f924d261a40caaf372c51e0a87c91ae0ea)](https://circleci.com/gh/amrap030/microservices-demo/tree/master)
 
-This project contains a 10-tier microservices application. The application is a
+This project contains a 12-tier microservices application. The application is a
 web-based e-commerce app called **“Hipster Shop”** where users can browse items,
 add them to the cart, and purchase them.
 
