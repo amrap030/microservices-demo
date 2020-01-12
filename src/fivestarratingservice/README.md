@@ -149,10 +149,20 @@ $ use hipstershop
 $ db.createCollection("ratings")
 ```
 
+## Run application
+
 To connect with the MongoDB database adjust the connection string inside of ./app/db/db.js to:
 
 ```bash
 mongodb://localhost/hipstershop
+```
+
+In server.js change the variable **const PORT** to an arbitrary port number. Comment out all @google-cloud lines.
+
+Run the following command:
+
+```bash
+$ npm start
 ```
 
 ## Testing/Validation
@@ -178,5 +188,5 @@ All of these modules are saved as DevDependencies and are not part of the build,
 From the repository root, run:
 
 ```
-docker build --file src/fivestarratingservice/Dockerfile .
+docker build -t .
 ```
