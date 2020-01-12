@@ -1,15 +1,16 @@
 version: 2
 jobs:
   test:
-    working_directory: ~/src/fivestarratingservice
+    working_directory: ~/fivestarratingservice
 
     docker:
       - image: circleci/node:7.10
       - image: circleci/mongo:3
 
     steps:
-      working_directory: ~/src/fivestarratingservice
       - checkout
+
+      - run: cd ~/src/fivestarratingservice
 
       - restore_cache:
           keys:
@@ -34,7 +35,7 @@ jobs:
               mkdir jest
               cd ..
               npm test --ci --reporters=default --reporters=jest-junit
-              mv ~/src/fivestarratingservice/junit.xml ~/src/fivestarratingservice/test-results/jest/
+              mv ~/fivestarratingservice/junit.xml ~/fivestarratingservice/test-results/jest/
       - store_test_results:
           path: test-results/
       - store_artifacts:
@@ -47,7 +48,7 @@ jobs:
           path: coverage/
 
   build-and-push-image:
-    working_directory: ~/src/fivestarratingservice
+    working_directory: ~/fivestarratingservice
 
     docker:
       - image: google/cloud-sdk
@@ -78,7 +79,7 @@ jobs:
           command: docker push gcr.io/${GOOGLE_PROJECT_ID}/${IMAGE_NAME}:${IMAGE_VERSION}
 
   deploy:
-    working_directory: ~/src/fivestarratingservice
+    working_directory: ~/fivestarratingservice
     docker:
       - image: google/cloud-sdk
     steps:
