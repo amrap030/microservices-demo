@@ -1,18 +1,15 @@
 version: 2
 jobs:
   test:
-    working_directory: /src/fivestarratingservice
+    working_directory: ~/fivestarratingservice
 
     docker:
       - image: circleci/node:7.10
       - image: circleci/mongo:3
 
     steps:
+      working_directory: ~/src/fivestarratingservice
       - checkout
-
-      - run: 
-          command: |
-              ls
 
       - restore_cache:
           keys:
