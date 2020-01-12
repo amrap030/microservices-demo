@@ -10,8 +10,15 @@ jobs:
     steps:
       - checkout
 
-      - run: ls
-      
+      - run: 
+          command: |
+              ls
+              cd src
+              ls
+              cd fivestarratingservice
+              ls
+              pwd
+
 
       - restore_cache:
           keys:
