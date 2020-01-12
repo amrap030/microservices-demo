@@ -34,7 +34,7 @@ jobs:
               mkdir jest
               cd ..
               npm test --ci --reporters=default --reporters=jest-junit
-              mv ~/fivestarratingservice/junit.xml ~/fivestarratingservice/test-results/jest/
+              mv ~/microservices-demo/src//junit.xml ~/microservices-demo/src//test-results/jest/
       - store_test_results:
           path: test-results/
       - store_artifacts:
