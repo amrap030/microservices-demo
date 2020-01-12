@@ -38,7 +38,7 @@ Find **Protocol Buffers Descriptions** at the [`./pb` directory](./pb).
 | [recommendationservice](./src/recommendationservice) | Python        | Recommends other products based on what's given in the cart.                                                                      |
 | [adservice](./src/adservice)                         | Java          | Provides text ads based on given context words.                                                                                   |
 | [loadgenerator](./src/loadgenerator)                 | Python/Locust | Continuously sends requests imitating realistic user shopping flows to the frontend.                                              |
-| [fivestarratingservice](./src/fivestarratingservice)                 | Node.js | Provides the possibility to rate products from 1 to 5 stars                                              |
+| [fivestarratingservice](./src/fivestarratingservice)                 | Node.js | Provides the functionalty to rate products from 1 to 5 stars, leave a comment to products and persist the data to a MongoDB database.                                             |
 
 ## Features
 
