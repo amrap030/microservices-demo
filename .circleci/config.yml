@@ -18,7 +18,6 @@ jobs:
               ls
               cd fivestarratingservice
               ls
-              pwd
 
 
       - restore_cache:
