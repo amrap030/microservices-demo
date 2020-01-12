@@ -103,7 +103,7 @@ This function fetches all ratings to the specified product from the mongoDB data
 
 ```json
 {
-    ratings: [
+    "ratings": [
         { 
             "productID": "2ZYFJ3GM2N",
             "rating": 3,
