@@ -60,7 +60,7 @@ Find **Protocol Buffers Descriptions** at the [`./pb` directory](./pb).
 - **Synthetic Load Generation:** The application demo comes with a background
   job that creates realistic usage patterns on the website using
   [Locust](https://locust.io/) load generator.
-  
+
 ## CI/CD - Continuous Integration/Continuous Deployment
 
 Connect the Repository to Circle CI via "Add Projects" and click on the Button "Start building". Add the following Environment Variables to the Project:
@@ -73,6 +73,14 @@ Connect the Repository to Circle CI via "Add Projects" and click on the Button "
 - **IMAGE_VERSION**: latest
 
 With every code commit and push to this GitHub repository the CI/CD pipeline in Circle CI will be triggered.
+
+## Grafana Monitoring
+
+Grafana monitoring can be setup to an Istio installed Kubernetes Cluster. 
+
+### Locally
+
+Use this [Link](https://istio.io/docs/setup/getting-started/) and follow the steps under "Download the release" and "Install Istio". When all necessary containers are running run: `kubectl label namespace <namespace> istio-injection=enabled` followed by `kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &`. Navigate to http://localhost:3000 to access the Grafana Dashboard.
 
 ## Installation
 
