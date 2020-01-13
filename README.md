@@ -88,6 +88,12 @@ kubectl apply -f ./istio-manifests
 
 Deploy the application with `skaffold run`. When the application is deployed run `kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &`. Navigate to http://localhost:3000 to access the Grafana Dashboard.
 
+### Cloud
+
+Follow the "(optional) Deploying on a Istio-installed GKE cluster" installation guide below. After step 2 use this [Link](https://istio.io/docs/setup/getting-started/) and follow the steps under "Download the release" and "Install Istio". When all necessary containers are running follow the rest of the "(optional) Deploying on a Istio-installed GKE cluster" installation guide. 
+
+When the application is deployed run `kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &`. Navigate to http://<IP-ADRESS>:3000 to access the Grafana Dashboard.
+
 ## Installation
 
 ### Option 1: Running locally with “Docker for Desktop”
