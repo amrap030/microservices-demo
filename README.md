@@ -106,7 +106,7 @@ use hipstershop
 db.createCollection("ratings")
 ```
 
-Exit the mongodb connection and the pod to delete the temporary pod. The replicaset is now configured! After this configuration you can follow one of the following steps to build an deploy.
+Exit the mongodb connection and the pod to delete the temporary pod. The replicaset is now configured! After this configuration you can follow one of the following steps to build an deploy the application.
 
 ## Installation
 
