@@ -61,38 +61,52 @@ Find **Protocol Buffers Descriptions** at the [`./pb` directory](./pb).
   job that creates realistic usage patterns on the website using
   [Locust](https://locust.io/) load generator.
 
-## CI/CD - Continuous Integration/Continuous Deployment
+## MongoDB Replicaset
 
-Connect the Repository to Circle CI via "Add Projects" and click on the Button "Start building". Add the following Environment Variables to the Project:
-
-- **GCLOUD_SERVICE_KEY**: Google Cloud Service Account key (Compute Engine default service account)
-- **GCP_CLUSTER**: Name of Kubernetes Engine Cluster
-- **GCP_COMPUTE_ZONE**: Compute Zone of Kubernetes Engine Cluster
-- **GOOGLE_PROJECT_ID**: Name of Google Projet ID
-- **IMAGE_NAME**: fivestarratingservice
-- **IMAGE_VERSION**: latest
-
-With every code commit and push to this GitHub repository the CI/CD pipeline in Circle CI will be triggered.
-
-## Grafana Monitoring
-
-Grafana monitoring can be setup to an Istio installed Kubernetes Cluster. 
-
-### Locally
-
-Use this [Link](https://istio.io/docs/setup/getting-started/) and follow the steps under "Download the release" and "Install Istio". When all necessary containers are running run: `kubectl label namespace <namespace> istio-injection=enabled`. Apply the manifests in [`./istio-manifests`](./istio-manifests) directory.
+Before deploying locally or to the Cloud you have to create a MongoDB Replicaset in your local or cloud Kubernetes Cluster. Use the files in [`./mongodb`](./mongodb) to create a statefulset and a service with the following commands:
 
 ```sh
-kubectl apply -f ./istio-manifests
+kubectl create -f ./mongodb/mongodb_statefulsets.yaml
+kubectl create -f ./mongodb/mongodb_service.yaml
 ```
 
-Deploy the application with `skaffold run`. When the application is deployed run `kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &`. Navigate to http://localhost:3000 to access the Grafana Dashboard.
+When all pods are up & running, run a temporary mongo instance with the following command:
 
-### Cloud
+```sh
+kubectl run mongo --rm -it --image mongo -- sh
+```
 
-Follow the "(optional) Deploying on a Istio-installed GKE cluster" installation guide below. After step 2 use this [Link](https://istio.io/docs/setup/getting-started/) and follow the steps under "Download the release" and "Install Istio". When all necessary containers are running follow the rest of the "(optional) Deploying on a Istio-installed GKE cluster" installation guide. 
+Press Enter and connect to mongo-0 via:
 
-When the application is deployed run `kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &`. Navigate to http://IP-ADRESS:3000 to access the Grafana Dashboard.
+```sh
+mongo mongodb://mongo-0.mongo
+```
+
+Configure the replicaset:
+
+```sh
+rs.initiate()
+var cfg = rs.conf()
+cfg.members[0].host="mongo-0.mongo:27017"
+rs.reconfig(cfg)
+rs.add("mongo-1.mongo:27017")
+rs.add("mongo-2.mongo:27017")
+```
+
+Exit the mongodb connection and connect again with the new connection string:
+
+```sh
+mongo mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo
+```
+
+Create a database called "hipstershop" and a collection called "ratings":
+
+```sh
+use hipstershop
+db.createCollection("ratings")
+```
+
+Exit the mongodb connection and the pod to delete the temporary pod. The replicaset is now configured! After this configuration you can follow one of the following steps to build an deploy.
 
 ## Installation
 
@@ -258,6 +272,39 @@ by deploying the [release manifest](./release) directly to an existing cluster.
    ```sh
    curl -v "http://$INGRESS_HOST"
    ```
+
+## CI/CD - Continuous Integration/Continuous Deployment
+
+Connect the Repository to Circle CI via "Add Projects" and click on the Button "Start building". Add the following Environment Variables to the Project:
+
+- **GCLOUD_SERVICE_KEY**: Google Cloud Service Account key (Compute Engine default service account)
+- **GCP_CLUSTER**: Name of Kubernetes Engine Cluster
+- **GCP_COMPUTE_ZONE**: Compute Zone of Kubernetes Engine Cluster
+- **GOOGLE_PROJECT_ID**: Name of Google Projet ID
+- **IMAGE_NAME**: fivestarratingservice
+- **IMAGE_VERSION**: latest
+
+With every code commit and push to this GitHub repository the CI/CD pipeline in Circle CI will be triggered.
+
+## Grafana Monitoring
+
+Grafana monitoring can be setup to an Istio installed Kubernetes Cluster. 
+
+### Locally
+
+Use this [Link](https://istio.io/docs/setup/getting-started/) and follow the steps under "Download the release" and "Install Istio". When all necessary containers are running run: `kubectl label namespace <namespace> istio-injection=enabled`. Apply the manifests in [`./istio-manifests`](./istio-manifests) directory.
+
+```sh
+kubectl apply -f ./istio-manifests
+```
+
+Deploy the application with `skaffold run`. When the application is deployed run `kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &`. Navigate to http://localhost:3000 to access the Grafana Dashboard.
+
+### Cloud
+
+Follow the "(optional) Deploying on a Istio-installed GKE cluster" installation guide below. After step 2 use this [Link](https://istio.io/docs/setup/getting-started/) and follow the steps under "Download the release" and "Install Istio". When all necessary containers are running follow the rest of the "(optional) Deploying on a Istio-installed GKE cluster" installation guide. 
+
+When the application is deployed run `kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &`. Navigate to http://IP-ADRESS:3000 to access the Grafana Dashboard.
 
 ### Cleanup
 
