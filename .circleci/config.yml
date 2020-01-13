@@ -110,7 +110,8 @@ workflows:
     jobs:
       - test:
           filters:
-            branches: master
+            branches: 
+              - master
       - build-and-push-image:
           requires:
             - test
