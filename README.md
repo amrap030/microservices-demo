@@ -277,7 +277,7 @@ by deploying the [release manifest](./release) directly to an existing cluster.
 
 Connect the Repository to Circle CI via "Add Projects" and click on the Button "Start building". Add the following Environment Variables to the Project:
 
-- **GCLOUD_SERVICE_KEY**: Google Cloud Service Account key (Compute Engine default service account)
+- **GCLOUD_SERVICE_KEY**: Google Cloud Service Account key (Compute Engine default service account) | base64 encoded
 - **GCP_CLUSTER**: Name of Kubernetes Engine Cluster
 - **GCP_COMPUTE_ZONE**: Compute Zone of Kubernetes Engine Cluster
 - **GOOGLE_PROJECT_ID**: Name of Google Projet ID
