@@ -2,22 +2,22 @@ const grpc = require('grpc');
 const protoLoader = require('@grpc/proto-loader');
 const pino = require('pino');
 
-// require('@google-cloud/profiler').start({
-//     serviceContext: {
-//       service: 'fivestarratingservice',
-//       version: '1.0.0'
-//     }
-// });
+require('@google-cloud/profiler').start({
+    serviceContext: {
+      service: 'fivestarratingservice',
+      version: '1.0.0'
+    }
+});
 
-// require('@google-cloud/trace-agent').start();
-// require('@google-cloud/debug-agent').start({
-//     serviceContext: {
-//       service: 'fivestarratingservice',
-//       version: '1.0.0'
-//     }
-// });
+require('@google-cloud/trace-agent').start();
+require('@google-cloud/debug-agent').start({
+    serviceContext: {
+      service: 'fivestarratingservice',
+      version: '1.0.0'
+    }
+});
 
-const PORT = 4444;
+const PORT = process.env.PORT;
 
 const logger = pino({
     name: 'fivestarratingservice-server',
